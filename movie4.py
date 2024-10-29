@@ -20,6 +20,7 @@ female_df = df[df['genderidentity'] == 1].iloc[:, :400]
 male_df = df[df['genderidentity'] == 2].iloc[:, :400]
 
 significant_count = 0
+movie_count = 0
 
 for movie in female_df.columns:
     female_rating = female_df[movie].dropna()
@@ -28,9 +29,10 @@ for movie in female_df.columns:
     statistic, pval = mannwhitneyu(female_rating, male_rating)
     if pval < alpha:
         significant_count += 1
+    movie_count += 1
 
 
-proportion_signif = significant_count / 400
+proportion_signif = significant_count / movie_count
 
 print('Results for Proportion of Movies Rated Differently Between Female and Male: ')
 print('Null hypothesis: NEED NULL HYPOTHESIS')
