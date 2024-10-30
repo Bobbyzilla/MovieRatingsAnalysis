@@ -40,3 +40,5 @@ print(f'Proportion Rated Differently: {(proportion_signif * 100):.2f}%')
 print('Conclusion: NEED CONCLUSION')
 print(f'Female Ratings Sample Size: {len(female_df)}')
 print(f'Male Ratings Sample Size: {len(male_df)}')
+
+# which kinds of movies are rated significantly differently?
