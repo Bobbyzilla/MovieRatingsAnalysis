@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 from scipy.stats import mannwhitneyu
+import matplotlib.pyplot as plt
 
 # # comparing central tendency - use MW. Do newer movies receive significantly higher or lower ratings?
 # comparing overall distribution - use KS - Do we care about differences in shape, spread, etc?
@@ -40,14 +41,23 @@ print(f'Female Ratings Sample Size: {len(female_ratings)}')
 print(f'Male Ratings Sample Size: {len(male_ratings)}')
 
 # OPTIONAL: Kruskal-Wallis test for 3 groups (female, male, self-described)
-from scipy.stats import kruskal
-sd_ratings = df[df['genderidentity'] == 3]['Shrek (2001)'].dropna()
+# from scipy.stats import kruskal
+# sd_ratings = df[df['genderidentity'] == 3]['Shrek (2001)'].dropna()
 
-statistic, pval = kruskal(female_ratings, male_ratings, sd_ratings)
-print('\nResults for Shrek (2001) Ratings, Female vs Male vs Self-Described Gender: ')
-print(f'Test Statistic: {statistic:.4f}')
-print(f'P-Value: {pval:.4f}')
-print('Significant?', pval <= alpha)
-print(f'Female Ratings Sample Size: {len(female_ratings)}')
-print(f'Male Ratings Sample Size: {len(male_ratings)}')
-print(f'Self-Described Gender Ratings Sample Size: {len(sd_ratings)}') # sample size way too small?
+# statistic, pval = kruskal(female_ratings, male_ratings, sd_ratings)
+# print('\nResults for Shrek (2001) Ratings, Female vs Male vs Self-Described Gender: ')
+# print(f'Test Statistic: {statistic:.4f}')
+# print(f'P-Value: {pval:.4f}')
+# print('Significant?', pval <= alpha)
+# print(f'Female Ratings Sample Size: {len(female_ratings)}')
+# print(f'Male Ratings Sample Size: {len(male_ratings)}')
+# print(f'Self-Described Gender Ratings Sample Size: {len(sd_ratings)}') # sample size way too small?
+
+# create a boxplot to visualize the difference in ordinal ratings
+plt.figure()
+plt.boxplot([female_ratings, male_ratings], positions = [1, 2])
+plt.xticks([1, 2], ['Female Ratings', 'Male Ratings'])
+plt.xlabel('Movie Groups')
+plt.ylabel('Ratings')
+plt.title('Movie Ratings by Female vs Male Viewers of \'Shrek (2001)\'')
+plt.show()

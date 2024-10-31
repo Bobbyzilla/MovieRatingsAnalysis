@@ -53,19 +53,21 @@ new_df = df[new_titles]
 old_ratings = old_df.values.flatten()
 old_ratings = old_ratings[~np.isnan(old_ratings)]
 new_ratings = new_df.values.flatten()
-new_Ratings = new_ratings[~np.isnan(new_ratings)]
+new_ratings = new_ratings[~np.isnan(new_ratings)]
 
 statistic, pval = mannwhitneyu(
              old_ratings, new_ratings, 
-             alternative = 'two-sided', # concerned with if the medians are different rather than greater than/less than
-             method = 'auto', # default by the function
+            #  alternative = 'two-sided', # concerned with if the medians are different rather than greater than/less than
+            #  method = 'auto', # default by the function
              nan_policy = 'omit', # omit NaNs when performing calculation
                         # option: 'propagate', if NaN is present in the row, the output for that row will be NaN
              )
 print('\nResults when categorizing median movies as new: ')
 print(f'Test Statistic: {statistic:.4f}')
-print(f'P-Value: {pval:.9f}')
+print(f'P-Value: {pval}')
 print('Significant?', pval <= alpha)
+print('Median Rating for Old Movies: ', np.median(old_ratings))
+print('Median Rating for New Movies: ', np.median(new_ratings))
 print(f'Old Movies Sample Size: {len(old_ratings)}')
 print(f'New Movies Sample Size: {len(new_ratings)}')
 
@@ -75,9 +77,8 @@ print(f'New Movies Sample Size: {len(new_ratings)}')
 # create a boxplot to visualize the difference in ordinal ratings
 plt.figure()
 plt.boxplot([old_ratings, new_ratings], positions = [1, 2])
-plt.show()
-
-plt.boxplot(old_ratings)
-plt.show()
-plt.boxplot(new_ratings)
+plt.xticks([1, 2], ['Old Movies', 'New Movies'])
+plt.xlabel('Movie Groups')
+plt.ylabel('Ratings')
+plt.title('Movie Ratings of Old vs New Movies')
 plt.show()
