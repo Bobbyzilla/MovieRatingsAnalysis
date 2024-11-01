@@ -74,11 +74,33 @@ print(f'New Movies Sample Size: {len(new_ratings)}')
 # box plot and histogram for MW test
 # KDE for ks test
 
+# count ratings to get distribution
+old_ratings_counts = pd.Series(old_ratings).value_counts().sort_index()
+new_ratings_counts = pd.Series(new_ratings).value_counts().sort_index()
+
+# normalize the ratings
+old_ratings_normalized = old_ratings_counts / len(old_ratings)
+new_ratings_normalized = new_ratings_counts / len(new_ratings)
+
+normalized_df = pd.DataFrame({
+    'Old Movies': old_ratings_normalized,
+    'New Movies': new_ratings_normalized
+}).fillna(0)
+
 # create a boxplot to visualize the difference in ordinal ratings
 plt.figure()
-plt.boxplot([old_ratings, new_ratings], positions = [1, 2])
-plt.xticks([1, 2], ['Old Movies', 'New Movies'])
-plt.xlabel('Movie Groups')
-plt.ylabel('Ratings')
-plt.title('Movie Ratings of Old vs New Movies')
+normalized_df.plot(kind = 'bar', color = ['blue', 'orange'], width = 0.5)
+plt.xlabel('Rating')
+plt.ylabel('Proportion')
+plt.title('Normalized Ratings Distribution: Old vs New Movies')
+plt.legend(title = 'Movie Group')
 plt.show()
+
+# normalize the result
+# add line that follows the shape of the bar
+
+# large sample size means only need a very small difference to get significance - can detect smaller effects
+# overlay the two distributions in a histogram
+# three colors - pink, blue, orange etc
+# boxplot assumes movie data is continuous
+# plots for showing discrete distributions
