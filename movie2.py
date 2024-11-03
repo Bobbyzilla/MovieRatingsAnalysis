@@ -4,15 +4,6 @@ import re
 from scipy.stats import mannwhitneyu
 import matplotlib.pyplot as plt
 
-# comparing central tendency - use MW. Do newer movies receive significantly higher or lower ratings?
-# comparing overall distribution - use KS - Do we care about differences in shape, spread, etc?
-
-## SIGNIFICANCE TEST USED: Mann Whitney U Test
-## WHY? 
-# Movie ratings are ordinal (non-categorical). 
-# Comparing 2 groups
-# Comparing medians rather than entire distributions - care more about central tendency
-
 # define significance level
 alpha = 0.005
 
@@ -71,9 +62,6 @@ print('Median Rating for New Movies: ', np.median(new_ratings))
 print(f'Old Movies Sample Size: {len(old_ratings)}')
 print(f'New Movies Sample Size: {len(new_ratings)}')
 
-# box plot and histogram for MW test
-# KDE for ks test
-
 # count ratings to get distribution
 old_ratings_counts = pd.Series(old_ratings).value_counts().sort_index()
 new_ratings_counts = pd.Series(new_ratings).value_counts().sort_index()
@@ -87,7 +75,7 @@ normalized_df = pd.DataFrame({
     'New Movies': new_ratings_normalized
 }).fillna(0)
 
-# create a boxplot to visualize the difference in ordinal ratings
+# create a barplot to visualize the difference in ordinal ratings
 plt.figure()
 normalized_df.plot(kind = 'bar', color = ['blue', 'orange'], width = 0.5)
 plt.xlabel('Rating')
@@ -95,12 +83,3 @@ plt.ylabel('Proportion')
 plt.title('Normalized Ratings Distribution: Old vs New Movies')
 plt.legend(title = 'Movie Group')
 plt.show()
-
-# normalize the result
-# add line that follows the shape of the bar
-
-# large sample size means only need a very small difference to get significance - can detect smaller effects
-# overlay the two distributions in a histogram
-# three colors - pink, blue, orange etc
-# boxplot assumes movie data is continuous
-# plots for showing discrete distributions

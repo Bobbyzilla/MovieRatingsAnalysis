@@ -4,15 +4,6 @@ import re
 from scipy.stats import mannwhitneyu
 import matplotlib.pyplot as plt
 
-# # comparing central tendency - use MW. Do newer movies receive significantly higher or lower ratings?
-# comparing overall distribution - use KS - Do we care about differences in shape, spread, etc?
-
-## SIGNIFICANCE TEST USED: Mann Whitney U Test
-## WHY? 
-# Movie ratings are ordinal (non-categorical)
-# Comparing 2 groups
-# Comparing medians rather than entire distribution - care more about central tendency
-
 # define significance level
 alpha = 0.005
 
@@ -40,24 +31,24 @@ print('Conclusion: pval > alpha, so we "decide not to drop the null hypothesis".
 print(f'Female Ratings Sample Size: {len(female_ratings)}')
 print(f'Male Ratings Sample Size: {len(male_ratings)}')
 
-# OPTIONAL: Kruskal-Wallis test for 3 groups (female, male, self-described)
-# from scipy.stats import kruskal
-# sd_ratings = df[df['genderidentity'] == 3]['Shrek (2001)'].dropna()
+# count ratings to get distribution
+female_ratings_counts = pd.Series(female_ratings).value_counts().sort_index()
+male_ratings_counts = pd.Series(male_ratings).value_counts().sort_index()
 
-# statistic, pval = kruskal(female_ratings, male_ratings, sd_ratings)
-# print('\nResults for Shrek (2001) Ratings, Female vs Male vs Self-Described Gender: ')
-# print(f'Test Statistic: {statistic:.4f}')
-# print(f'P-Value: {pval:.4f}')
-# print('Significant?', pval <= alpha)
-# print(f'Female Ratings Sample Size: {len(female_ratings)}')
-# print(f'Male Ratings Sample Size: {len(male_ratings)}')
-# print(f'Self-Described Gender Ratings Sample Size: {len(sd_ratings)}') # sample size way too small?
+# normalize the ratings
+female_ratings_normalized = female_ratings_counts / len(female_ratings)
+male_ratings_normalized = male_ratings_counts / len(male_ratings)
 
-# create a boxplot to visualize the difference in ordinal ratings
+normalized_df = pd.DataFrame({
+    'Female Viewers': female_ratings_normalized,
+    'Male Viewers': male_ratings_normalized
+}).fillna(0)
+
+# create a barplot to visualize the difference in ordinal ratings
 plt.figure()
-plt.boxplot([female_ratings, male_ratings], positions = [1, 2])
-plt.xticks([1, 2], ['Female Ratings', 'Male Ratings'])
-plt.xlabel('Movie Groups')
-plt.ylabel('Ratings')
-plt.title('Movie Ratings by Female vs Male Viewers of \'Shrek (2001)\'')
+normalized_df.plot(kind = 'bar', color = ['blue', 'orange'], width = 0.5)
+plt.xlabel('Ratings')
+plt.ylabel('Proportion')
+plt.title('Normalized Ratings Distribution for \'Shrek (2001)\': Female vs Male Viewers')
+plt.legend(title = 'Movie Group')
 plt.show()
