@@ -15,9 +15,7 @@ male_df = df[df['genderidentity'] == 2].iloc[:, :400]
 
 significant_count = 0
 movie_count = 0
-small_female_count = 0
 small_male_count = 0
-below_20_male_count = 0
 
 for movie in female_df.columns:
     female_rating = female_df[movie].dropna()
@@ -36,11 +34,7 @@ for movie in female_df.columns:
 proportion_signif = significant_count / movie_count
 
 print('Results for Proportion of Movies Rated Differently Between Female and Male: ')
-print('Null hypothesis: NEED NULL HYPOTHESIS')
 print(f'Proportion Rated Differently: {(proportion_signif * 100):.2f}%')
-print('Conclusion: NEED CONCLUSION')
 print(f'Female Ratings Sample Size: {len(female_df)}')
 print(f'Male Ratings Sample Size: {len(male_df)}')
-print('Number of movies with insufficient female ratings: ', small_female_count)
-print('Number of movies with insufficient male ratings: ', small_male_count)
-print('Number of movies with male ratings < 20: ', below_20_male_count)
+print('Number of movies with male ratings < 8: ', small_male_count)
